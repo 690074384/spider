@@ -23,10 +23,10 @@ public class UserDataGather {
 		//DbUtil.closeConn(conn);
 	}
 	
-	public static void SpiderUser(Connection conn,int start,int count) throws Exception{
+	public static void spiderUser(Connection conn,int start,int count) throws Exception{
 		String sql="SELECT * from t_userlist where visited=0 limit  ";
 		List<User> rootusers=selectUserID(conn,sql+start+","+count);
-		Insert(conn,rootusers);
+		insert(conn,rootusers);
 	}
 	
 	//查询用户
@@ -51,7 +51,7 @@ public class UserDataGather {
 	}
 	
 	//将新的用户插入到数据库中
-	private static void Insert(Connection conn,List<User> rootusers) throws Exception{
+	private static void insert(Connection conn,List<User> rootusers) throws Exception{
 		String sql="insert into t_userlist(userid,username,rootuserid,rootusername,visited) values(?,?,?,?,?)";
 		String sqlupdate="update t_userlist set visited=1 where userid=?";
 		String sqlvisited="SELECT * from t_userlist where visited=1 and userid=";
@@ -75,7 +75,7 @@ public class UserDataGather {
 				try {
 					for(int j=0;j<userlist.size();j++){
 						
-						if(userlist.get(j).getRootuserid()==user.getUserid()){
+						if(userlist.get(j).getRootuserid().equals(user.getUserid())){
 							//相同的关注中已被查询 不再遍历其关注用户
 							visitedUser=selectUserID(conn,sqlvisited+"'"+userlist.get(j).getUserid()+"'").size();
 							

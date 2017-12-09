@@ -22,10 +22,10 @@ public class UserInfoDataGather {
 		 DbUtil.closeConn(conn);
 	}
 	
-	public static void SpiderUserInfo(Connection conn,int start,int count) throws Exception{
+	public static void spiderUserInfo(Connection conn,int start,int count) throws Exception{
 		 String sql="SELECT * from t_userlist where infostored=0 limit ";
 		 List<User> rootusers=selectUserID(conn, sql+start+","+count);
-		 InsertUserInfo(conn, rootusers);
+		 insertUserInfo(conn, rootusers);
 	}
 	//=========
 	//查询用户
@@ -47,7 +47,7 @@ public class UserInfoDataGather {
 			return list;
 		}
 	//将新的用户信息插入到数据库中
-	private static void InsertUserInfo(Connection conn,List<User> rootusers) throws Exception{
+	private static void insertUserInfo(Connection conn,List<User> rootusers) throws Exception{
 		String sql="insert into t_userinfo"
 				+ "(userid,username,address,gender,sexual,Relationship,birthday,college,middlesch,blog,blood,profile,personaldomain,registertime,email,qq,tag) "
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
